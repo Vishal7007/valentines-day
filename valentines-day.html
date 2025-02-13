@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Bus Journey - Valentine's Special</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff69b4;
+            --secondary-color: #ff1493;
+            --bg-color: #fff0f5;
+            --dark-pink: #c71585;
+            --light-pink: #ffb6c1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* body {
+            
+            
+            background-color: black;
+        } */
+        canvas {
+            
+            margin: 0;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* body {
+            background: linear-gradient(135deg, #ffebee 0%, #fce4ec 100%); 
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a2a;
+            min-height: 100vh;
+            color: var(--text-color);
+            overflow-x: hidden;
+            position: relative;
+
+        } */
+
+        body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: #1a1a2e;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "Arial", sans-serif;
+        overflow: hidden;
+      }
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .bus {
+            font-size: 60px;
+            animation: driveBus 3s infinite;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        @keyframes driveBus {
+            0% { transform: translateX(-50px); }
+            50% { transform: translateX(50px); }
+            100% { transform: translateX(-50px); }
+        }
+
+        .journey-stop {
+            display: none;
+            background-color: rgb(0 159 255 / 31%); /*  rgba(255, 255, 255, 0.9); */
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            animation: fadeInUp 1s;
+        }
+
+        .journey-stop.active {
+            display: block;
+        }
+
+        .heart-btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255,105,180,0.3);
+        }
+
+        .heart-btn:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.178);
+        }
+
+        .moving-heart {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: float 4s ease-in infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
+        }
+
+        .love-message {
+            font-family: cursive;
+            color: var(--dark-pink);
+            margin: 20px 0;
+            font-size: 1.2em;
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.7);
+        }
+
+        .romantic-memory {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            transform: rotate(-1deg);
+            transition: transform 0.3s;
+        }
+
+        .romantic-memory:hover {
+            transform: rotate(0) scale(1.02);
+        }
+
+        .naughty-button {
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .heart-shower {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .final-wish {
+            background: linear-gradient(45deg, #ff69b446, #ff1491b0);
+            color: rgba(255, 255, 255, 0.836);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1s;
+        }
+
+        
+
+        .final-wish.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .ticket {
+            background: linear-gradient(45deg, #fff, #fce4ec);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px auto;
+            max-width: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticket::before {
+            content: "❤️";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+        }
+
+        .window {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .window::after {
+            content: "🌟";
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="stars"></div>
+        <section class="journey-stop active" id="start">
+            <div class="bus">🚌</div>
+            <div class="ticket">
+                <h2>Love Bus Ticket</h2>
+                <p>Destination: Forever Together</p>
+                <p>Route: Through My Heart</p>
+                <button class="heart-btn" style="margin-top: 15px;"  onclick="startJourney()">Start our <br> Love Journey ❤️</button>
+
+            </div>
+        </section>
+
+        <section class="journey-stop" id="first-stop">
+            <div class="window">
+                <h3>First Stop: Memory Lane</h3>
+                <div class="love-message" style="font-size: 15px;">
+                    Remember how we get to know each other? <br>
+                    Each moment since then has been magical... ✨
+                </div>
+            </div>
+            <button class="heart-btn" onclick="nextStop()">Next Stop 👉</button>
+        </section>
+
+        <section class="journey-stop" id="second-stop">
+            <div class="romantic-memory">
+                <h3>Our Special Moments</h3>
+                <div class="love-message" style="font-size: 15px;">
+                    From late night messages to video calls, <br>
+                    Every moment with you is precious...
+                </div>
+            </div>
+            <!-- <button class="naughty-button heart-btn" onmouseover="moveButton(this)">Catch Me If You Can 😘</button> -->
+            <button class="heart-btn" onclick="nextStop()">Next Stop 👉</button>
+        </section>
+
+        <section class="journey-stop" id="third-stop">
+            <div class="window">
+                <h3>Love Messages Station</h3>
+                <div class="love-message" id="chat-messages" style="font-size: 15px;">
+                    Hey love... Missing you right now ❤️
+                </div>
+            </div>
+            <button class="heart-btn" onclick="showChat()">Read More 💌</button>
+        </section>
+
+        <section  class="journey-stop" id="final-stop"  >
+            <canvas id="fireworksCanvas" ></canvas>
+            <div class="final-wish" style="font-size: 15px;">
+                <h1 style="margin-bottom: 5px !important;">Happy Valentine's Day! Shubhangi❤️</h1>
+                <image src="couple.gif" style="height:100px"></image> 
+                <p>You are my today and all of my tomorrows.</p>
+                <p>Vishal ❤️ Shubhangi</p>
+                <p>Forever</p>
+                <div class="bus">💞</div>
+                <button class="heart-btn" onclick="createHeartShower()">Send Virtual Love 💖</button>
+            </div>
+        
+        </section>
+        
+    </div>
+    <audio id="magicSound" preload="auto">
+        <source src="magic_sound.mp3" type="audio/mpeg">
+    </audio>
+    <div class="heart-shower" id="heart-shower"></div>
+
+    <script>
+        let currentStop = 0;
+        const stops = ["start", "first-stop", "second-stop", "third-stop", "final-stop"];
+        
+        function createStars() {
+        const starsContainer = document.querySelector(".stars");
+        const numberOfStars = 200;
+
+        for (let i = 0; i < numberOfStars; i++) {
+          const star = document.createElement("div");
+          star.classList.add("star");
+          const size = Math.random() * 3 + 1;
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          star.style.left = `${Math.random() * 100}%`;
+          star.style.top = `${Math.random() * 100}%`;
+          star.style.setProperty("--duration", `${Math.random() * 3 + 2}s`);
+          starsContainer.appendChild(star);
+          document.body.appendChild(starsContainer);
+        }
+        
+      }
+
+        function showStop(index) {
+            document.querySelectorAll('.journey-stop').forEach(stop => stop.classList.remove('active'));
+            document.getElementById(stops[index]).classList.add('active');
+        }
+
+        function startJourney() {
+            currentStop++;
+            showStop(currentStop);
+            createHearts();
+            PlayBgSound();
+        }
+
+        function nextStop() {
+            currentStop++;
+            showStop(currentStop);
+            createHearts();
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'moving-heart';
+            heart.innerHTML = ['❤️', '💖', '💕', '💗'][Math.floor(Math.random() * 4)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            document.getElementById('heart-shower').appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+        }
+
+        function createHearts() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(createHeart, i * 300);
+            }
+            PlayMagicSound();
+        }
+
+        function PlayMagicSound() {
+            let audio = new Audio('magic_sound.mp3'); 
+            if (!audio.paused) {
+                audio.pause(); // Pause the current audio
+                audio.currentTime = 0; // Reset the audio
+            }
+
+            audio = new Audio('magic_sound.mp3'); // Create a new audio instance 
+            audio.play(); 
+           
+        }
+         function PlayChatSound() {
+            let audio = new Audio('whatsapp_message.mp3'); 
+            if (!audio.paused) {
+                audio.pause(); // Pause the current audio
+                audio.currentTime = 0; // Reset the audio
+            }
+
+            audio = new Audio('whatsapp_message.mp3'); // Create a new audio instance
+            audio.volume = 0.7;
+            audio.play(); 
+           
+        }
+        function PlayBgSound() {
+            let audio = new Audio('Happy_Together.mp3');  
+            audio.volume = 0.8;
+            audio.play();  
+        }
+
+        function moveButton(btn) {
+            const maxX = window.innerWidth - btn.offsetWidth;
+            const maxY = window.innerHeight - btn.offsetHeight;
+            
+            btn.style.position = 'absolute';
+            btn.style.left = Math.random() * maxX + 'px';
+            btn.style.top = Math.random() * maxY + 'px';
+
+            let attempts = parseInt(btn.getAttribute('data-attempts') || 0) + 1;
+            btn.setAttribute('data-attempts', attempts);
+
+            if (attempts >= 5) {
+                btn.innerHTML = "You caught me! 💋";
+                btn.onmouseover = null;
+                btn.onclick = nextStop;
+            }
+        }
+
+        const loveMessages = [
+            "Missing your smile... 😊",
+            "Thinking about our moments together... 💭",
+            "Can't wait to see you again! 💝",
+            "You make my heart skip a beat... 💓"
+        ];
+
+        let messageIndex = 0;
+
+        function showChat() {
+            const chatDiv = document.getElementById('chat-messages');
+            if (messageIndex < loveMessages.length) {
+                chatDiv.innerHTML += `<br>${loveMessages[messageIndex]}`;
+                messageIndex++;
+                PlayMagicSound();
+            } else {
+                nextStop();
+                setTimeout(() => {
+                    document.querySelector('.final-wish').classList.add('show');
+                }, 500);
+            }
+        }
+
+        function createHeartShower() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+            PlayMagicSound();
+        }
+
+        // Start floating hearts animation
+        setInterval(createHeart, 2000);
+
+        const canvas = document.getElementById("fireworksCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const duration = 2000; // Duration in milliseconds
+
+        class Firework {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.particles = [];
+                this.startTime = Date.now();
+                for (let i = 0; i < 50; i++) {
+                    this.particles.push(new Particle(this.x, this.y, this.color));
+                }
+            }
+            update() {
+                this.particles.forEach((particle, index) => {
+                    particle.update();
+                    if (particle.alpha <= 0) {
+                        this.particles.splice(index, 1);
+                    }
+                });
+            }
+            draw() {
+                this.particles.forEach(particle => particle.draw());
+            }
+            isExpired() {
+                return Date.now() - this.startTime > duration;
+            }
+        }
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.size = Math.random() * 4 + 1;
+                this.speedX = (Math.random() - 0.5) * 6;
+                this.speedY = (Math.random() - 0.5) * 6;
+                this.alpha = 1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.alpha -= 0.02;
+            }
+            draw() {
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        let fireworks = [];
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            fireworks = fireworks.filter(firework => {
+                firework.update();
+                firework.draw();
+                return !firework.isExpired();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener("click", (e) => {
+            const colors = [ "#FFD700","#FF00FF","#A020F0","#87CEEB","#00FFFF","#32CD32","#FFD700","#FFA500","#FF69B4","#FF0000"];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            fireworks.push(new Firework(e.clientX, e.clientY, color));
+            PlayMagicSound();
+        });
+       
+        animate(); 
+    </script>
+</body>
+</html>
